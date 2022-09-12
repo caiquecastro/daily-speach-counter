@@ -1,8 +1,8 @@
-import { Container, MantineProvider } from "@mantine/core";
-import SpeakersTime from "./components/SpeakersTable";
-import { SpeakerProvider } from "./contexts/SpeakerContext";
-import { AddMemberForm } from "./components/AddMemberForm";
-import { Header } from "./components/Header";
+import { Container, MantineProvider } from '@mantine/core';
+import SpeakersTime from './components/SpeakersTable';
+import { SpeakerProvider } from './contexts/SpeakerContext';
+import { AddMemberForm } from './components/AddMemberForm';
+import { Header } from './components/Header';
 
 function App() {
   return (

@@ -1,8 +1,8 @@
-import { ActionIcon, Button, Table } from "@mantine/core";
-import { IconPlayerPlay, IconPlayerStop, IconTrash } from "@tabler/icons";
-import { useContext } from "react";
-import { SpeakerContext } from "../contexts/SpeakerContext";
-import { formatTime } from "../helpers/time";
+import { ActionIcon, Button, Table } from '@mantine/core';
+import { IconPlayerPlay, IconPlayerStop, IconTrash } from '@tabler/icons';
+import { useContext } from 'react';
+import { SpeakerContext } from '../contexts/SpeakerContext';
+import { formatTime } from '../helpers/time';
 
 function SpeakersTime() {
   const { currentSpeaker, speakers, startSpeach, stopSpeach, removeSpeaker } =

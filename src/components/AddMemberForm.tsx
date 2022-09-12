@@ -1,11 +1,11 @@
-import { ActionIcon, TextInput, useMantineTheme } from "@mantine/core";
-import { IconPlus } from "@tabler/icons";
-import { FormEvent, useContext, useState } from "react";
-import { SpeakerContext } from "../contexts/SpeakerContext";
+import { ActionIcon, TextInput, useMantineTheme } from '@mantine/core';
+import { IconPlus } from '@tabler/icons';
+import { FormEvent, useContext, useState } from 'react';
+import { SpeakerContext } from '../contexts/SpeakerContext';
 
 export function AddMemberForm() {
   const theme = useMantineTheme();
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const { addSpeaker } = useContext(SpeakerContext);
 
   const handleAddName = (e: FormEvent) => {
@@ -15,7 +15,7 @@ export function AddMemberForm() {
       return;
     }
     addSpeaker?.({ name, time: 0 });
-    setName("");
+    setName('');
   };
 
   return (

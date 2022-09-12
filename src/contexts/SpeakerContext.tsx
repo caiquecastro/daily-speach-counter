@@ -1,5 +1,5 @@
-import { createContext, PropsWithChildren, useEffect, useState } from "react";
-import { Speaker } from "../models/Speaker";
+import { createContext, PropsWithChildren, useEffect, useState } from 'react';
+import { Speaker } from '../models/Speaker';
 
 export const SpeakerContext = createContext<{
   currentSpeaker?: Speaker;
