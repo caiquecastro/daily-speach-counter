@@ -5,20 +5,9 @@ import { SpeakerContext } from "../contexts/SpeakerContext";
 import { formatTime } from "../helpers/time";
 import { Speaker } from "../models/Speaker";
 
-interface Props {
-  rows: Speaker[];
-  onStartSpeach: (speaker: Speaker) => void;
-  onStopSpeach: () => void;
-  onRemoveSpeaker: (speaker: Speaker) => void;
-}
-
-function SpeakersTime({
-  rows,
-  onStartSpeach,
-  onStopSpeach,
-  onRemoveSpeaker,
-}: Props) {
-  const { currentSpeaker } = useContext(SpeakerContext);
+function SpeakersTime() {
+  const { currentSpeaker, speakers, startSpeach, stopSpeach, removeSpeaker } =
+    useContext(SpeakerContext);
 
   return (
     <Table>
@@ -30,22 +19,22 @@ function SpeakersTime({
         </tr>
       </thead>
       <tbody>
-        {rows.map((row) => (
+        {speakers.map((row) => (
           <tr key={row.name}>
             <td>{row.name}</td>
             <td>{formatTime(row.time)}</td>
             <td>
               {currentSpeaker?.name !== row.name ? (
-                <ActionIcon onClick={() => onStartSpeach(row)}>
+                <ActionIcon onClick={() => startSpeach?.(row)}>
                   <IconPlayerPlay />
                 </ActionIcon>
               ) : (
-                <ActionIcon onClick={() => onStopSpeach()}>
+                <ActionIcon onClick={() => stopSpeach?.()}>
                   <IconPlayerStop />
                 </ActionIcon>
               )}
               <ActionIcon
-                onClick={() => onRemoveSpeaker(row)}
+                onClick={() => removeSpeaker?.(row)}
                 disabled={currentSpeaker?.name === row.name}
               >
                 <IconTrash />
