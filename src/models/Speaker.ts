@@ -1,4 +1,4 @@
 export interface Speaker {
-    name: string;
-    time: number;
+  name: string;
+  time: number;
 }
