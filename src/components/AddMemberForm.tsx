@@ -1,6 +1,6 @@
 import { ActionIcon, TextInput, useMantineTheme } from "@mantine/core";
 import { IconPlus } from "@tabler/icons";
-import { useContext, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { SpeakerContext } from "../contexts/SpeakerContext";
 
 export function AddMemberForm() {
@@ -8,7 +8,9 @@ export function AddMemberForm() {
   const [name, setName] = useState("");
   const { addSpeaker } = useContext(SpeakerContext);
 
-  const handleAddName = () => {
+  const handleAddName = (e: FormEvent) => {
+    e.preventDefault();
+
     if (!name) {
       return;
     }
@@ -17,20 +19,22 @@ export function AddMemberForm() {
   };
 
   return (
-    <TextInput
-      rightSection={
-        <ActionIcon
-          onClick={handleAddName}
-          color={theme.primaryColor}
-          variant="filled"
-          radius="xl"
-        >
-          <IconPlus size={18} stroke={1.5} />
-        </ActionIcon>
-      }
-      label="Add a new member name"
-      value={name}
-      onChange={(e) => setName(e.target.value)}
-    />
+    <form onSubmit={handleAddName}>
+      <TextInput
+        rightSection={
+          <ActionIcon
+            onClick={handleAddName}
+            color={theme.primaryColor}
+            variant="filled"
+            radius="xl"
+          >
+            <IconPlus size={18} stroke={1.5} />
+          </ActionIcon>
+        }
+        label="Add a new member name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+    </form>
   );
 }

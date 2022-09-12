@@ -1,9 +1,8 @@
-import { ActionIcon, Table } from "@mantine/core";
+import { ActionIcon, Button, Table } from "@mantine/core";
 import { IconPlayerPlay, IconPlayerStop, IconTrash } from "@tabler/icons";
 import { useContext } from "react";
 import { SpeakerContext } from "../contexts/SpeakerContext";
 import { formatTime } from "../helpers/time";
-import { Speaker } from "../models/Speaker";
 
 function SpeakersTime() {
   const { currentSpeaker, speakers, startSpeach, stopSpeach, removeSpeaker } =
@@ -24,21 +23,23 @@ function SpeakersTime() {
             <td>{row.name}</td>
             <td>{formatTime(row.time)}</td>
             <td>
-              {currentSpeaker?.name !== row.name ? (
-                <ActionIcon onClick={() => startSpeach?.(row)}>
-                  <IconPlayerPlay />
+              <Button.Group>
+                {currentSpeaker?.name !== row.name ? (
+                  <ActionIcon onClick={() => startSpeach?.(row)}>
+                    <IconPlayerPlay />
+                  </ActionIcon>
+                ) : (
+                  <ActionIcon onClick={() => stopSpeach?.()}>
+                    <IconPlayerStop />
+                  </ActionIcon>
+                )}
+                <ActionIcon
+                  onClick={() => removeSpeaker?.(row)}
+                  disabled={currentSpeaker?.name === row.name}
+                >
+                  <IconTrash />
                 </ActionIcon>
-              ) : (
-                <ActionIcon onClick={() => stopSpeach?.()}>
-                  <IconPlayerStop />
-                </ActionIcon>
-              )}
-              <ActionIcon
-                onClick={() => removeSpeaker?.(row)}
-                disabled={currentSpeaker?.name === row.name}
-              >
-                <IconTrash />
-              </ActionIcon>
+              </Button.Group>
             </td>
           </tr>
         ))}

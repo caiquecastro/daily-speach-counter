@@ -1,5 +1,4 @@
-import { MantineProvider } from "@mantine/core";
-import "./App.css";
+import { Container, MantineProvider } from "@mantine/core";
 import SpeakersTime from "./components/SpeakersTable";
 import { SpeakerProvider } from "./contexts/SpeakerContext";
 import { AddMemberForm } from "./components/AddMemberForm";
@@ -9,12 +8,12 @@ function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <SpeakerProvider>
-        <div className="App">
+        <Container size="lg">
           <Header />
           <AddMemberForm />
 
           <SpeakersTime />
-        </div>
+        </Container>
       </SpeakerProvider>
     </MantineProvider>
   );
