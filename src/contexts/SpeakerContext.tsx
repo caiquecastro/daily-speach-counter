@@ -20,7 +20,17 @@ export function SpeakerProvider({ children }: PropsWithChildren) {
   const [elapsedTime, setElapsedTime] = useState<number>();
 
   const addSpeaker = (speaker: Speaker) => {
-    setSpeakers((currentSpeakers) => currentSpeakers.concat({ ...speaker }));
+    setSpeakers((currentSpeakers) => {
+      const hasSpeakerWithSameName = currentSpeakers.find(
+        (row) => row.name === speaker.name
+      );
+
+      if (hasSpeakerWithSameName) {
+        return currentSpeakers;
+      }
+
+      return currentSpeakers.concat({ ...speaker });
+    });
   };
 
   const updateSpeakersTime = (speaker: Speaker, startTime: number) => {
