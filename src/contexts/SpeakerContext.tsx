@@ -1,3 +1,4 @@
+import { useLocalStorage } from '@mantine/hooks';
 import { createContext, PropsWithChildren, useEffect, useState } from 'react';
 import { Speaker } from '../models/Speaker';
 
@@ -15,9 +16,12 @@ export const SpeakerContext = createContext<{
 
 export function SpeakerProvider({ children }: PropsWithChildren) {
   const [currentSpeaker, setSpeaker] = useState<Speaker>();
-  const [speakers, setSpeakers] = useState<Speaker[]>([]);
   const [startedAt, setStartedAt] = useState<number>();
   const [elapsedTime, setElapsedTime] = useState<number>();
+  const [speakers, setSpeakers] = useLocalStorage<Speaker[]>({
+    key: 'speakers',
+    defaultValue: [],
+  });
 
   const addSpeaker = (speaker: Speaker) => {
     setSpeakers((currentSpeakers) => {
