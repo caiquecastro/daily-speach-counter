@@ -1,12 +1,23 @@
 import { ActionIcon, Button, Table } from '@mantine/core';
-import { IconPlayerPlay, IconPlayerStop, IconTrash } from '@tabler/icons';
+import {
+  IconTrash,
+  IconPlayerPause,
+  IconPlayerPlay,
+  IconPlayerStop,
+} from '@tabler/icons';
 import { useContext } from 'react';
 import { SpeakerContext } from '../contexts/SpeakerContext';
 import { formatTime } from '../helpers/time';
 
 function SpeakersTime() {
-  const { currentSpeaker, speakers, startSpeach, stopSpeach, removeSpeaker } =
-    useContext(SpeakerContext);
+  const {
+    currentSpeaker,
+    speakers,
+    startSpeach,
+    stopSpeach,
+    removeSpeaker,
+    resetSpeakerTime,
+  } = useContext(SpeakerContext);
 
   return (
     <Table>
@@ -30,7 +41,7 @@ function SpeakersTime() {
                   </ActionIcon>
                 ) : (
                   <ActionIcon onClick={() => stopSpeach?.()}>
-                    <IconPlayerStop />
+                    <IconPlayerPause />
                   </ActionIcon>
                 )}
                 <ActionIcon
@@ -38,6 +49,12 @@ function SpeakersTime() {
                   disabled={currentSpeaker?.name === row.name}
                 >
                   <IconTrash />
+                </ActionIcon>
+                <ActionIcon
+                  onClick={() => resetSpeakerTime?.(row)}
+                  disabled={currentSpeaker?.name === row.name}
+                >
+                  <IconPlayerStop />
                 </ActionIcon>
               </Button.Group>
             </td>

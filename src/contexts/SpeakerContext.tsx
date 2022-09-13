@@ -10,6 +10,7 @@ export const SpeakerContext = createContext<{
   removeSpeaker?: (speaker: Speaker) => void;
   startSpeach?: (speaker: Speaker) => void;
   stopSpeach?: () => void;
+  resetSpeakerTime?: (speaker: Speaker) => void;
 }>({
   speakers: [],
 });
@@ -81,6 +82,20 @@ export function SpeakerProvider({ children }: PropsWithChildren) {
     );
   };
 
+  const resetSpeakerTime = (speaker: Speaker) => {
+    setSpeakers((rows) =>
+      rows.map((row) => {
+        if (row.name === speaker.name) {
+          return {
+            ...row,
+            time: 0,
+          };
+        }
+        return row;
+      })
+    );
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
       const newElapsedTime = startedAt ? Date.now() - startedAt : 0;
@@ -101,6 +116,7 @@ export function SpeakerProvider({ children }: PropsWithChildren) {
         removeSpeaker,
         startSpeach,
         stopSpeach,
+        resetSpeakerTime,
         elapsedTime,
       }}
     >
