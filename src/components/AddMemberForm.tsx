@@ -1,7 +1,7 @@
-import { ActionIcon, TextInput, useMantineTheme } from '@mantine/core';
 import { IconPlus } from '@tabler/icons';
 import { FormEvent, useContext, useState } from 'react';
 import { SpeakerContext } from '../contexts/SpeakerContext';
+import { ActionIcon, TextInput, useMantineTheme } from '@mantine/core';
 
 export function AddMemberForm() {
   const theme = useMantineTheme();
@@ -22,12 +22,7 @@ export function AddMemberForm() {
     <form onSubmit={handleAddName}>
       <TextInput
         rightSection={
-          <ActionIcon
-            onClick={handleAddName}
-            color={theme.primaryColor}
-            variant="filled"
-            radius="xl"
-          >
+          <ActionIcon color={theme.primaryColor} variant="filled" radius="xl">
             <IconPlus size={18} stroke={1.5} />
           </ActionIcon>
         }

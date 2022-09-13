@@ -29,7 +29,9 @@ export function SpeakerProvider({ children }: PropsWithChildren) {
         return currentSpeakers;
       }
 
-      return currentSpeakers.concat({ ...speaker });
+      const allSpeakers = currentSpeakers.concat({ ...speaker });
+
+      return allSpeakers.sort((a, b) => a.name.localeCompare(b.name));
     });
   };
 
