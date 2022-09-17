@@ -6,7 +6,7 @@ import {
   IconPlayerStop,
 } from '@tabler/icons';
 import { useContext } from 'react';
-import { SpeakerContext } from '../contexts/SpeakerContext';
+import { CurrentSpeakerContext } from '../contexts/CurrentSpeakerContext';
 import { formatTime } from '../helpers/time';
 
 function SpeakersTime() {
@@ -17,7 +17,7 @@ function SpeakersTime() {
     stopSpeach,
     removeSpeaker,
     resetSpeakerTime,
-  } = useContext(SpeakerContext);
+  } = useContext(CurrentSpeakerContext);
 
   return (
     <Table>

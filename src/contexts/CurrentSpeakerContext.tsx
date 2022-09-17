@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { Speaker } from '../models/Speaker';
 
-export const SpeakerContext = createContext<{
+export const CurrentSpeakerContext = createContext<{
   currentSpeaker?: Speaker;
   elapsedTime?: number;
   speakers: Speaker[];
@@ -21,7 +21,7 @@ export const SpeakerContext = createContext<{
   speakers: [],
 });
 
-export function SpeakerProvider({ children }: PropsWithChildren) {
+export function CurrentSpeakerProvider({ children }: PropsWithChildren) {
   const [currentSpeaker, setSpeaker] = useState<Speaker>();
   const [startedAt, setStartedAt] = useState<number>();
   const [elapsedTime, setElapsedTime] = useState<number>();
@@ -123,7 +123,7 @@ export function SpeakerProvider({ children }: PropsWithChildren) {
   }, [startedAt, elapsedTime]);
 
   return (
-    <SpeakerContext.Provider
+    <CurrentSpeakerContext.Provider
       value={{
         currentSpeaker,
         speakers,
@@ -136,6 +136,6 @@ export function SpeakerProvider({ children }: PropsWithChildren) {
       }}
     >
       {children}
-    </SpeakerContext.Provider>
+    </CurrentSpeakerContext.Provider>
   );
 }

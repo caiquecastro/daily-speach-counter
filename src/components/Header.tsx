@@ -1,10 +1,11 @@
 import { Text, Title } from '@mantine/core';
 import { useContext } from 'react';
-import { SpeakerContext } from '../contexts/SpeakerContext';
+import { CurrentSpeakerContext } from '../contexts/CurrentSpeakerContext';
 import { formatTime } from '../helpers/time';
 
 export function Header() {
-  const { currentSpeaker, elapsedTime } = useContext(SpeakerContext);
+  const { currentSpeaker, elapsedTime } = useContext(CurrentSpeakerContext);
+
   return (
     <>
       <Text>

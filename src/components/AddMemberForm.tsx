@@ -1,12 +1,12 @@
 import { IconPlus } from '@tabler/icons';
 import { FormEvent, useContext, useState } from 'react';
-import { SpeakerContext } from '../contexts/SpeakerContext';
+import { CurrentSpeakerContext } from '../contexts/CurrentSpeakerContext';
 import { ActionIcon, TextInput, useMantineTheme } from '@mantine/core';
 
 export function AddMemberForm() {
   const theme = useMantineTheme();
   const [name, setName] = useState('');
-  const { addSpeaker } = useContext(SpeakerContext);
+  const { addSpeaker } = useContext(CurrentSpeakerContext);
 
   const handleAddName = (e: FormEvent) => {
     e.preventDefault();

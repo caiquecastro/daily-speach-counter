@@ -1,20 +1,20 @@
 import { Container, MantineProvider } from '@mantine/core';
 import SpeakersTime from './components/SpeakersTable';
-import { SpeakerProvider } from './contexts/SpeakerContext';
+import { CurrentSpeakerProvider } from './contexts/CurrentSpeakerContext';
 import { AddMemberForm } from './components/AddMemberForm';
 import { Header } from './components/Header';
 
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
-      <SpeakerProvider>
+      <CurrentSpeakerProvider>
         <Container size="lg">
           <Header />
           <AddMemberForm />
 
           <SpeakersTime />
         </Container>
-      </SpeakerProvider>
+      </CurrentSpeakerProvider>
     </MantineProvider>
   );
 }
