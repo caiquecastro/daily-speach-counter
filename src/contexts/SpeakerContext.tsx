@@ -1,5 +1,11 @@
 import { useLocalStorage } from '@mantine/hooks';
-import { createContext, PropsWithChildren, useEffect, useState } from 'react';
+import {
+  createContext,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { Speaker } from '../models/Speaker';
 
 export const SpeakerContext = createContext<{
@@ -24,7 +30,7 @@ export function SpeakerProvider({ children }: PropsWithChildren) {
     defaultValue: [],
   });
 
-  const addSpeaker = (speaker: Speaker) => {
+  const addSpeaker = useCallback((speaker: Speaker) => {
     setSpeakers((currentSpeakers) => {
       const hasSpeakerWithSameName = currentSpeakers.find(
         (row) => row.name === speaker.name
@@ -38,51 +44,60 @@ export function SpeakerProvider({ children }: PropsWithChildren) {
 
       return allSpeakers.sort((a, b) => a.name.localeCompare(b.name));
     });
-  };
+  }, []);
 
-  const updateSpeakersTime = (speaker: Speaker, startTime: number) => {
-    setSpeakers((rows) =>
-      rows.map((row) => {
-        if (row.name === speaker.name) {
-          return {
-            ...row,
-            time: row.time + (Date.now() - startTime),
-          };
-        }
-        return row;
-      })
-    );
-  };
+  const updateSpeakersTime = useCallback(
+    (speaker: Speaker, startTime: number) => {
+      setSpeakers((rows) =>
+        rows.map((row) => {
+          if (row.name === speaker.name) {
+            return {
+              ...row,
+              time: row.time + (Date.now() - startTime),
+            };
+          }
+          return row;
+        })
+      );
+    },
+    []
+  );
 
-  const startSpeach = (speaker: Speaker) => {
-    if (currentSpeaker && startedAt) {
-      updateSpeakersTime(currentSpeaker, startedAt);
-    }
+  const startSpeach = useCallback(
+    (speaker: Speaker) => {
+      if (currentSpeaker && startedAt) {
+        updateSpeakersTime(currentSpeaker, startedAt);
+      }
 
-    setStartedAt(Date.now());
-    setSpeaker?.(speaker);
-  };
+      setStartedAt(Date.now());
+      setSpeaker?.(speaker);
+    },
+    [currentSpeaker, startedAt, updateSpeakersTime]
+  );
 
-  const stopSpeach = () => {
+  const stopSpeach = useCallback(() => {
     if (currentSpeaker && startedAt) {
       updateSpeakersTime(currentSpeaker, startedAt);
     }
 
     setStartedAt(undefined);
     setSpeaker?.(undefined);
-  };
+  }, [currentSpeaker, startedAt, updateSpeakersTime]);
 
-  const removeSpeaker = (speakerToRemove: Speaker) => {
-    if (currentSpeaker?.name === speakerToRemove.name) {
-      return;
-    }
+  const removeSpeaker = useCallback(
+    (speakerToRemove: Speaker) => {
+      if (currentSpeaker?.name === speakerToRemove.name) {
+        return;
+      }
 
-    setSpeakers((speakers) =>
-      speakers.filter((speaker) => speaker.name !== speakerToRemove.name)
-    );
-  };
+      setSpeakers((speakers) =>
+        speakers.filter((speaker) => speaker.name !== speakerToRemove.name)
+      );
+    },
+    [currentSpeaker]
+  );
 
-  const resetSpeakerTime = (speaker: Speaker) => {
+  const resetSpeakerTime = useCallback((speaker: Speaker) => {
     setSpeakers((rows) =>
       rows.map((row) => {
         if (row.name === speaker.name) {
@@ -94,7 +109,7 @@ export function SpeakerProvider({ children }: PropsWithChildren) {
         return row;
       })
     );
-  };
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
