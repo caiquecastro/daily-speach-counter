@@ -5,19 +5,19 @@ import {
   IconPlayerPlay,
   IconPlayerStop,
 } from '@tabler/icons';
-import { useContext } from 'react';
-import { CurrentSpeakerContext } from '../contexts/CurrentSpeakerContext';
+import { useContext, useState } from 'react';
+import { SpeakersContext } from '../contexts/SpeakersContext';
 import { formatTime } from '../helpers/time';
 
 function SpeakersTime() {
   const {
-    currentSpeaker,
     speakers,
-    startSpeach,
-    stopSpeach,
     removeSpeaker,
     resetSpeakerTime,
-  } = useContext(CurrentSpeakerContext);
+    currentSpeaker,
+    startSpeach,
+    stopSpeach,
+  } = useContext(SpeakersContext);
 
   return (
     <Table>
@@ -36,7 +36,7 @@ function SpeakersTime() {
             <td>
               <Button.Group>
                 {currentSpeaker?.name !== row.name ? (
-                  <ActionIcon onClick={() => startSpeach?.(row)}>
+                  <ActionIcon onClick={() => startSpeach(row)}>
                     <IconPlayerPlay />
                   </ActionIcon>
                 ) : (

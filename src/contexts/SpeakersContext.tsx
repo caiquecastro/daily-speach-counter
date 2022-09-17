@@ -1,30 +1,28 @@
 import { useLocalStorage } from '@mantine/hooks';
-import {
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, PropsWithChildren, useCallback, useState } from 'react';
 import { Speaker } from '../models/Speaker';
 
-export const CurrentSpeakerContext = createContext<{
+export const SpeakersContext = createContext<{
   currentSpeaker?: Speaker;
-  elapsedTime?: number;
   speakers: Speaker[];
-  addSpeaker?: (speaker: Speaker) => void;
-  removeSpeaker?: (speaker: Speaker) => void;
-  startSpeach?: (speaker: Speaker) => void;
-  stopSpeach?: () => void;
-  resetSpeakerTime?: (speaker: Speaker) => void;
+  addSpeaker: (speaker: Speaker) => void;
+  removeSpeaker: (speaker: Speaker) => void;
+  resetSpeakerTime: (speaker: Speaker) => void;
+  startSpeach: (speaker: Speaker) => void;
+  stopSpeach: () => void;
+  startedSpeachAt?: number;
 }>({
   speakers: [],
+  addSpeaker: () => {},
+  removeSpeaker: () => {},
+  resetSpeakerTime: () => {},
+  startSpeach: () => {},
+  stopSpeach: () => {},
 });
 
-export function CurrentSpeakerProvider({ children }: PropsWithChildren) {
+export function SpeakersProvider({ children }: PropsWithChildren) {
   const [currentSpeaker, setSpeaker] = useState<Speaker>();
   const [startedAt, setStartedAt] = useState<number>();
-  const [elapsedTime, setElapsedTime] = useState<number>();
   const [speakers, setSpeakers] = useLocalStorage<Speaker[]>({
     key: 'speakers',
     defaultValue: [],
@@ -46,7 +44,7 @@ export function CurrentSpeakerProvider({ children }: PropsWithChildren) {
     });
   }, []);
 
-  const updateSpeakersTime = useCallback(
+  const updateSpeakerTime = useCallback(
     (speaker: Speaker, startTime: number) => {
       setSpeakers((rows) =>
         rows.map((row) => {
@@ -66,23 +64,23 @@ export function CurrentSpeakerProvider({ children }: PropsWithChildren) {
   const startSpeach = useCallback(
     (speaker: Speaker) => {
       if (currentSpeaker && startedAt) {
-        updateSpeakersTime(currentSpeaker, startedAt);
+        updateSpeakerTime(currentSpeaker, startedAt);
       }
 
       setStartedAt(Date.now());
       setSpeaker?.(speaker);
     },
-    [currentSpeaker, startedAt, updateSpeakersTime]
+    [currentSpeaker, startedAt, updateSpeakerTime]
   );
 
   const stopSpeach = useCallback(() => {
     if (currentSpeaker && startedAt) {
-      updateSpeakersTime(currentSpeaker, startedAt);
+      updateSpeakerTime(currentSpeaker, startedAt);
     }
 
     setStartedAt(undefined);
     setSpeaker?.(undefined);
-  }, [currentSpeaker, startedAt, updateSpeakersTime]);
+  }, [currentSpeaker, startedAt, updateSpeakerTime]);
 
   const removeSpeaker = useCallback(
     (speakerToRemove: Speaker) => {
@@ -111,19 +109,8 @@ export function CurrentSpeakerProvider({ children }: PropsWithChildren) {
     );
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const newElapsedTime = startedAt ? Date.now() - startedAt : 0;
-      setElapsedTime(newElapsedTime);
-    }, 1);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [startedAt, elapsedTime]);
-
   return (
-    <CurrentSpeakerContext.Provider
+    <SpeakersContext.Provider
       value={{
         currentSpeaker,
         speakers,
@@ -132,10 +119,10 @@ export function CurrentSpeakerProvider({ children }: PropsWithChildren) {
         startSpeach,
         stopSpeach,
         resetSpeakerTime,
-        elapsedTime,
+        startedSpeachAt: startedAt,
       }}
     >
       {children}
-    </CurrentSpeakerContext.Provider>
+    </SpeakersContext.Provider>
   );
 }
