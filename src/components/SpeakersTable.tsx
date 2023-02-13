@@ -4,7 +4,7 @@ import {
   IconPlayerPause,
   IconPlayerPlay,
   IconPlayerStop,
-} from '@tabler/icons';
+} from '@tabler/icons-react';
 import { useContext, useState } from 'react';
 import { SpeakersContext } from '../contexts/SpeakersContext';
 import { formatTime } from '../helpers/time';

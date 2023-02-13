@@ -1,4 +1,4 @@
-import { IconPlus } from '@tabler/icons';
+import { IconPlus } from '@tabler/icons-react';
 import { FormEvent, useContext, useState } from 'react';
 import { ActionIcon, TextInput, useMantineTheme } from '@mantine/core';
 import { SpeakersContext } from '../contexts/SpeakersContext';
